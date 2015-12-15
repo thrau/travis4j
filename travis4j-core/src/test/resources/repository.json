@@ -1,0 +1,16 @@
+{
+  "repo": {
+    "github_language": "Java",
+    "last_build_number": "65",
+    "last_build_language": null,
+    "last_build_duration": 378,
+    "active": true,
+    "description": "A simple archiving and compression library for Java",
+    "last_build_state": "passed",
+    "id": 1889385,
+    "last_build_started_at": "2015-11-22T15:03:57Z",
+    "last_build_id": 92561340,
+    "last_build_finished_at": "2015-11-22T15:09:22Z",
+    "slug": "thrau/jarchivelib"
+  }
+}

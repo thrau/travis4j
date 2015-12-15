@@ -94,8 +94,8 @@ public class BuildJsonObject extends AbstractJsonObject implements Build {
     }
 
     @Override
-    public String getNumber() {
-        return getString("number");
+    public Long getNumber() {
+        return getLong("number");
     }
 
     protected void setCommit(JSONObject json) {

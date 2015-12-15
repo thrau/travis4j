@@ -14,7 +14,7 @@ public interface Build extends Entity {
 
     Long getDuration();
 
-    String getNumber();
+    Long getNumber();
 
     String getEventType();
 
