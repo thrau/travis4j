@@ -6,12 +6,15 @@ import java.util.List;
 import org.json.JSONObject;
 import org.travis4j.EntityVisitor;
 import org.travis4j.model.Build;
+import org.travis4j.model.Commit;
 import org.travis4j.model.Config;
 
 /**
  * BuildJsonObject.
  */
 public class BuildJsonObject extends AbstractJsonObject implements Build {
+
+    private JSONObject commit;
 
     public BuildJsonObject(JSONObject json) {
         super(json);
@@ -73,6 +76,14 @@ public class BuildJsonObject extends AbstractJsonObject implements Build {
     }
 
     @Override
+    public Commit getCommit() {
+        if (commit == null) {
+            return null;
+        }
+        return new CommitJsonObject(commit);
+    }
+
+    @Override
     public Long getId() {
         return getLong("id");
     }
@@ -85,6 +96,10 @@ public class BuildJsonObject extends AbstractJsonObject implements Build {
     @Override
     public String getNumber() {
         return getString("number");
+    }
+
+    protected void setCommit(JSONObject json) {
+        this.commit = json;
     }
 
     @Override

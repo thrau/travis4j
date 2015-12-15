@@ -1,10 +1,12 @@
 package org.travis4j.model.json;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +38,25 @@ public class JsonEntityFactory implements EntityFactory {
     @Override
     public Build createBuild(JsonResponse response) {
         return createIfExists(response, json -> new BuildJsonObject(json.getJSONObject("build")));
+    }
+
+    @Override
+    public List<Build> createBuildList(JsonResponse response) {
+        return createIfExists(response, json -> {
+            JSONArray buildsArray = json.getJSONArray("builds");
+            JSONArray commitsArray = json.getJSONArray("commits");
+
+            List<Build> list = new ArrayList<>(buildsArray.length());
+
+            for (int i = 0; i < buildsArray.length(); i++) {
+                BuildJsonObject build = new BuildJsonObject(buildsArray.getJSONObject(i));
+                build.setCommit(commitsArray.optJSONObject(i));
+
+                list.add(build);
+            }
+
+            return list;
+        });
     }
 
     private <T> T createIfExists(JsonResponse response, Function<JSONObject, T> factory) {

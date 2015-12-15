@@ -3,6 +3,7 @@ package org.travis4j.model.json;
 import java.time.Instant;
 
 import org.json.JSONObject;
+import org.travis4j.EntityVisitor;
 import org.travis4j.model.Commit;
 
 /**
@@ -64,4 +65,8 @@ public class CommitJsonObject extends AbstractJsonObject implements Commit {
         return getLong("id");
     }
 
+    @Override
+    public void accept(EntityVisitor visitor) {
+        visitor.visit(this);
+    }
 }

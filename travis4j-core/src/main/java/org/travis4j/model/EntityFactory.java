@@ -2,7 +2,6 @@ package org.travis4j.model;
 
 import java.util.List;
 
-import org.json.JSONObject;
 import org.travis4j.rest.JsonResponse;
 
 /**
@@ -16,4 +15,6 @@ public interface EntityFactory {
     List<User> createUserList(JsonResponse response);
 
     Build createBuild(JsonResponse response);
+
+    List<Build> createBuildList(JsonResponse response);
 }

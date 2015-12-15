@@ -1,0 +1,94 @@
+{
+  "builds": [
+    {
+      "pull_request": false,
+      "finished_at": "2015-11-22T15:09:22Z",
+      "job_ids": [
+        92561342,
+        92561344
+      ],
+      "duration": 378,
+      "number": "65",
+      "event_type": "push",
+      "pull_request_title": null,
+      "pull_request_number": null,
+      "started_at": "2015-11-22T15:03:57Z",
+      "repository_id": 1889385,
+      "id": 92561340,
+      "state": "passed",
+      "commit_id": 26318654,
+      "config": {
+        "jdk": [
+          "openjdk6",
+          "openjdk7"
+        ],
+        "after_success": [
+          "mvn clean cobertura:cobertura coveralls:report"
+        ],
+        ".result": "configured",
+        "dist": "precise",
+        "language": "java",
+        "group": "stable"
+      }
+    },
+    {
+      "pull_request": true,
+      "finished_at": "2015-11-21T11:59:40Z",
+      "job_ids": [
+        92424794,
+        92424795
+      ],
+      "duration": 133,
+      "number": "64",
+      "event_type": "pull_request",
+      "pull_request_title": "Include top-level folder names in the archive for multi-file archives",
+      "pull_request_number": 46,
+      "started_at": "2015-11-21T11:58:22Z",
+      "repository_id": 1889385,
+      "id": 92424793,
+      "state": "passed",
+      "commit_id": 26281307,
+      "config": {
+        "jdk": [
+          "openjdk6",
+          "openjdk7"
+        ],
+        "after_success": [
+          "mvn clean cobertura:cobertura coveralls:report"
+        ],
+        ".result": "configured",
+        "dist": "precise",
+        "language": "java",
+        "group": "stable"
+      }
+    }
+  ],
+  "commits": [
+    {
+      "author_name": "Thomas Rausch",
+      "committer_email": "thomas@rauschig.org",
+      "compare_url": "https://github.com/thrau/jarchivelib/compare/563b7cdf5266...dc8bf2206e1d",
+      "committed_at": "2015-11-22T15:03:04Z",
+      "pull_request_number": null,
+      "author_email": "thomas@rauschig.org",
+      "id": 26318654,
+      "message": "Merge pull request #46 from gbrova/feature/add-top-level-folders-for-create-with-multiple-files\n\nInclude top-level folder names in the archive for multi-file archives",
+      "sha": "dc8bf2206e1ddba304502abb2aad97a0d8e72f59",
+      "branch": "master",
+      "committer_name": "Thomas Rausch"
+    },
+    {
+      "author_name": "george",
+      "committer_email": "gbrova@gmail.com",
+      "compare_url": "https://github.com/thrau/jarchivelib/pull/46",
+      "committed_at": "2015-11-21T11:49:03Z",
+      "pull_request_number": 46,
+      "author_email": "gbrova@gmail.com",
+      "id": 26281307,
+      "message": "Include top-level folder names in the archive for multi-file archives\n\nIf multiple folders are added to the archive, ensure that the top-level folder name is also\npart of the archive (and that the first level is not flattened)",
+      "sha": "d74d48d9447b976624d9d61442769ed6c32c6d0f",
+      "branch": "master",
+      "committer_name": "george"
+    }
+  ]
+}

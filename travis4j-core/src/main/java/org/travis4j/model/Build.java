@@ -35,4 +35,6 @@ public interface Build extends Entity {
     Long getCommitId();
 
     Config getConfig();
+
+    Commit getCommit();
 }

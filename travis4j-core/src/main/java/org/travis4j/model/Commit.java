@@ -5,7 +5,8 @@ import java.time.Instant;
 /**
  * Commit.
  */
-public interface Commit {
+public interface Commit extends Entity {
+
     String getAuthorName();
 
     String getCommitterEmail();
