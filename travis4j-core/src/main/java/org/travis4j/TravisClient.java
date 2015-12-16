@@ -8,7 +8,6 @@ import java.util.List;
 
 import org.apache.http.Header;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicHeader;
 import org.slf4j.Logger;
@@ -64,6 +63,11 @@ public class TravisClient implements Closeable, Travis,
     }
 
     @Override
+    public BuildsResource builds() {
+        return this;
+    }
+
+    @Override
     public Repository getRepository(long id) {
         JsonResponse response = client.query("repos/" + id);
         return factory.createRepository(response);
@@ -96,6 +100,25 @@ public class TravisClient implements Closeable, Travis,
     public Build getBuild(long buildId) {
         JsonResponse response = client.query("builds/" + buildId);
         return factory.createBuild(response);
+    }
+
+    @Override
+    public List<Build> getBuilds(long repositoryId) {
+        JsonResponse response = client.get("builds")
+                .addParameter("repository_id", repositoryId)
+                .execute();
+
+        return factory.createBuildList(response);
+    }
+
+    @Override
+    public List<Build> getBuilds(long repositoryId, long offset) {
+        JsonResponse response = client.get("builds")
+                .addParameter("repository_id", repositoryId)
+                .addParameter("after_number", offset)
+                .execute();
+
+        return factory.createBuildList(response);
     }
 
     @Override

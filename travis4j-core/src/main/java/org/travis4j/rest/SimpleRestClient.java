@@ -7,10 +7,11 @@ import java.net.URI;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.client.methods.RequestBuilder;
 
 /**
- * SimpleRestClient.
+ * Wraps a HttpClient for easier use.
  */
 public class SimpleRestClient implements Closeable {
 
@@ -23,19 +24,26 @@ public class SimpleRestClient implements Closeable {
     }
 
     public JsonResponse query(String path) {
-        HttpGet request = httpGet(path);
-        return new JsonResponse(execute(request));
+        return get(path).execute();
+    }
+
+    public JsonResponse query(RequestBuilder request) {
+        return new JsonResponse(execute(request.build()));
     }
 
     public HttpClient getHttpClient() {
         return httpClient;
     }
 
-    public HttpGet httpGet(String path) {
-        return new HttpGet(api.resolve(path));
+    public Request get(String path) {
+        return new Request(this, getRequestBuilder(path));
     }
 
-    public HttpResponse execute(HttpGet request) throws UncheckedIOException {
+    public RequestBuilder getRequestBuilder(String path) {
+        return RequestBuilder.get(api.resolve(path));
+    }
+
+    public HttpResponse execute(HttpUriRequest request) throws UncheckedIOException {
         try {
             return httpClient.execute(request);
         } catch (IOException e) {

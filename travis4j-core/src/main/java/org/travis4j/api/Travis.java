@@ -8,4 +8,6 @@ public interface Travis {
     RepositoriesResource repositories();
 
     UsersResource users();
+
+    BuildsResource builds();
 }
