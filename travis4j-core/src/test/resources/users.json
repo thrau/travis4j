@@ -1,0 +1,19 @@
+{
+  "user": {
+    "correct_scopes": true,
+    "is_syncing": false,
+    "channels": [
+      "user-63782",
+      "repo-3319193",
+      "repo-2901175"
+    ],
+    "name": "Thomas Rausch",
+    "created_at": "2014-02-11T23:13:00Z",
+    "id": 63782,
+    "login": "thrau",
+    "locale": null,
+    "gravatar_id": "202ba991780ac4cd9f1f66a38401b2db",
+    "email": "thomas@rauschig.org",
+    "synced_at": "2015-12-16T04:15:48Z"
+  }
+}

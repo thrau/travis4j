@@ -9,12 +9,13 @@ import java.time.Instant;
 import java.util.Iterator;
 import java.util.List;
 
-import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.travis4j.model.Build;
 import org.travis4j.model.EntityFactory;
 import org.travis4j.model.Repository;
+import org.travis4j.model.User;
+import org.travis4j.rest.JsonResponse;
 import org.travis4j.testing.JsonResources;
 import org.travis4j.testing.MockJsonResponse;
 
@@ -34,7 +35,7 @@ public class JsonEntityFactoryTest {
 
     @Test
     public void createRepository_createsObjectCorrectly() throws Exception {
-        Repository repository = factory.createRepository(new MockJsonResponse(JsonResources.read("repository.json")));
+        Repository repository = factory.createRepository(get("repository.json"));
 
         assertEquals(1889385, repository.getId(), 0);
         assertEquals("thrau/jarchivelib", repository.getSlug());
@@ -53,9 +54,7 @@ public class JsonEntityFactoryTest {
 
     @Test
     public void createBuildList_createsBuildListCorrectly() throws Exception {
-        JSONObject json = JsonResources.read("builds.json");
-
-        List<Build> list = factory.createBuildList(new MockJsonResponse(json));
+        List<Build> list = factory.createBuildList(get("builds.json"));
         Iterator<Build> builds = list.iterator();
 
         assertEquals(2, list.size());
@@ -104,13 +103,35 @@ public class JsonEntityFactoryTest {
 
     @Test
     public void createRepositoryList_createsRepositoryListCorrectly() throws Exception {
-        JSONObject json = JsonResources.read("repositories.json");
-
-        List<Repository> list = factory.createRepositoryList(new MockJsonResponse(json));
+        List<Repository> list = factory.createRepositoryList(get("repositories.json"));
 
         assertEquals(2, list.size());
         assertEquals("thrau/jarchivelib", list.get(0).getSlug());
         assertEquals("thrau/dotfiles", list.get(1).getSlug());
+    }
+
+    @Test
+    public void createUserList_createsListCorrectly() throws Exception {
+        List<User> list = factory.createUserList(get("users.json"));
+
+        assertEquals(1, list.size());
+
+        User user = list.get(0);
+        assertEquals(63782, user.getId(), 0);
+        assertEquals("thrau", user.getLogin());
+        assertEquals("Thomas Rausch", user.getName());
+        assertEquals("thomas@rauschig.org", user.getEmail());
+        assertEquals(true, user.getCorrectScopes());
+        assertEquals(false, user.getIsSyncing());
+        assertEquals("202ba991780ac4cd9f1f66a38401b2db", user.getGravatarId());
+        assertEquals(Instant.parse("2014-02-11T23:13:00Z"), user.getCreatedAt());
+        assertEquals(Instant.parse("2015-12-16T04:15:48Z"), user.getSyncedAt());
+        assertEquals(3, user.getChannels().size());
+        assertThat(user.getChannels(), hasItems("user-63782", "repo-3319193", "repo-2901175"));
+    }
+
+    private static JsonResponse get(String path) {
+        return new MockJsonResponse(JsonResources.read(path));
     }
 
 }
