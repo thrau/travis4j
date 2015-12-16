@@ -27,14 +27,13 @@ public class JsonResponse {
     public JSONObject getJson() throws JSONException {
         HttpEntity entity = response.getEntity();
 
-        if(!isOk()) {
+        if (!isOk()) {
             // FIXME
             throw new RuntimeException("No 200 response, was: " + response);
         }
 
         try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
             entity.writeTo(out);
-            LOG.info("Wrote {}", out);
             return new JSONObject(out.toString());
         } catch (IOException e) {
             throw new UncheckedIOException(e);

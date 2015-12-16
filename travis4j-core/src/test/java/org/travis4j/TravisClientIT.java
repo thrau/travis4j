@@ -12,6 +12,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.travis4j.model.Build;
+import org.travis4j.model.PageIterator;
 import org.travis4j.model.Repository;
 
 /**
@@ -93,5 +94,21 @@ public class TravisClientIT {
         list.sort((r1, r2) -> Long.compare(r1.getId(), r2.getId())); // order is not guaranteed by travis
         assertEquals("thrau/dotfiles", list.get(0).getSlug());
         assertEquals("thrau/jarchivelib", list.get(1).getSlug());
+    }
+
+    @Test
+    public void getAllBuilds_returnsCorrectIterator() throws Exception {
+        PageIterator<Build> pageIterator = travis.getAllBuilds(1889385);
+
+        List<Build> next;
+
+        assertTrue(pageIterator.hasNext());
+        next = pageIterator.next();
+        assertEquals(25, next.size());
+        assertTrue(next.get(0).getNumber() > 64);
+
+        assertTrue(pageIterator.hasNext());
+        next = pageIterator.next();
+        assertEquals(25, next.size());
     }
 }

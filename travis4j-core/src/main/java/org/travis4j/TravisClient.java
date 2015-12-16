@@ -18,9 +18,11 @@ import org.travis4j.api.Travis;
 import org.travis4j.api.UsersResource;
 import org.travis4j.model.Build;
 import org.travis4j.model.EntityFactory;
+import org.travis4j.model.PageIterator;
 import org.travis4j.model.Repository;
 import org.travis4j.model.User;
 import org.travis4j.model.json.JsonEntityFactory;
+import org.travis4j.model.page.BuildsPageIterator;
 import org.travis4j.rest.JsonResponse;
 import org.travis4j.rest.SimpleRestClient;
 
@@ -127,6 +129,11 @@ public class TravisClient implements Closeable, Travis,
                 .execute();
 
         return factory.createBuildList(response);
+    }
+
+    @Override
+    public PageIterator<Build> getAllBuilds(long repositoryId) {
+        return new BuildsPageIterator(repositoryId, this);
     }
 
     @Override
