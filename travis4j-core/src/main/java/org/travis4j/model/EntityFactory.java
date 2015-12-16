@@ -12,9 +12,11 @@ public interface EntityFactory {
 
     User createUser(JsonResponse response);
 
-    List<User> createUserList(JsonResponse response);
-
     Build createBuild(JsonResponse response);
 
+    List<User> createUserList(JsonResponse response);
+
     List<Build> createBuildList(JsonResponse response);
+
+    List<Repository> createRepositoryList(JsonResponse response);
 }

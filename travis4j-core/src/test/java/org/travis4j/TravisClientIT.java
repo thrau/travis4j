@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.time.Instant;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.After;
@@ -82,6 +83,15 @@ public class TravisClientIT {
 
         assertEquals(18708233, builds.get(0).getId(), 0);
         assertEquals(18707665, builds.get(1).getId(), 0);
+    }
 
+    @Test
+    public void getRepositories_byIds_returnsCorrectData() throws Exception {
+        List<Repository> list = travis.getRepositories(Arrays.asList(1889384L, 1889385L));
+
+        assertEquals(2, list.size());
+        list.sort((r1, r2) -> Long.compare(r1.getId(), r2.getId())); // order is not guaranteed by travis
+        assertEquals("thrau/dotfiles", list.get(0).getSlug());
+        assertEquals("thrau/jarchivelib", list.get(1).getSlug());
     }
 }

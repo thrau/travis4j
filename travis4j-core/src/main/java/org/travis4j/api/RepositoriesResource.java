@@ -15,4 +15,6 @@ public interface RepositoriesResource {
 
     List<Repository> getRepositories(String slug);
 
+    List<Repository> getRepositories(List<Long> ids);
+
 }

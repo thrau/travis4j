@@ -1,5 +1,10 @@
 package org.travis4j.rest;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
 import org.apache.http.client.methods.RequestBuilder;
 
 /**
@@ -21,6 +26,11 @@ public class Request {
         return this;
     }
 
+    public <T> Request addParameter(String key, CharSequence delimiter, Collection<T> values) {
+        List<String> joinables = values.stream().map(Objects::toString).collect(Collectors.toList());
+        return addParameter(key, String.join(delimiter, joinables));
+    }
+
     /**
      * Executes the request using the held rest client.
      * 
@@ -32,5 +42,10 @@ public class Request {
 
     public RequestBuilder getBuilder() {
         return builder;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Request[%s]", builder.build());
     }
 }

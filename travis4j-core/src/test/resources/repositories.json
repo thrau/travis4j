@@ -1,0 +1,32 @@
+{
+  "repos": [
+    {
+      "github_language": "Java",
+      "last_build_number": "65",
+      "last_build_language": null,
+      "last_build_duration": 378,
+      "description": "A simple archiving and compression library for Java",
+      "active": true,
+      "last_build_state": "passed",
+      "id": 1889385,
+      "last_build_started_at": "2015-11-22T15:03:57Z",
+      "last_build_id": 92561340,
+      "last_build_finished_at": "2015-11-22T15:09:22Z",
+      "slug": "thrau/jarchivelib"
+    },
+    {
+      "github_language": "Shell",
+      "last_build_number": null,
+      "last_build_language": null,
+      "last_build_duration": null,
+      "description": "There are many like them, but these ones are mine ...",
+      "active": null,
+      "last_build_state": "",
+      "id": 1889384,
+      "last_build_started_at": null,
+      "last_build_id": null,
+      "last_build_finished_at": null,
+      "slug": "thrau/dotfiles"
+    }
+  ]
+}

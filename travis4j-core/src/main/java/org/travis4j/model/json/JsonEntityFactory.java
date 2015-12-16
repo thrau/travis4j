@@ -22,12 +22,12 @@ public class JsonEntityFactory implements EntityFactory {
 
     @Override
     public Repository createRepository(JsonResponse response) {
-        return createIfExists(response, (json) -> new RepositoryJsonObject(json.getJSONObject("repo")));
+        return createIfExists(response, "repo", RepositoryJsonObject::new);
     }
 
     @Override
     public User createUser(JsonResponse response) {
-        return createIfExists(response, (json) -> new UserJsonObject(json.getJSONObject("user")));
+        return createIfExists(response, "user", UserJsonObject::new);
     }
 
     @Override
@@ -37,7 +37,12 @@ public class JsonEntityFactory implements EntityFactory {
 
     @Override
     public Build createBuild(JsonResponse response) {
-        return createIfExists(response, json -> new BuildJsonObject(json.getJSONObject("build")));
+        return createIfExists(response, "build", BuildJsonObject::new);
+    }
+
+    @Override
+    public List<Repository> createRepositoryList(JsonResponse response) {
+        return createListIfExists(response, "repos", RepositoryJsonObject::new);
     }
 
     @Override
@@ -61,6 +66,28 @@ public class JsonEntityFactory implements EntityFactory {
 
     private <T> T createIfExists(JsonResponse response, Function<JSONObject, T> factory) {
         return read(response).map(factory).orElse(null);
+    }
+
+    private <T> T createIfExists(JsonResponse response, String key, Function<JSONObject, T> factory) {
+        return read(response)
+                .map(obj -> obj.getJSONObject(key))
+                .map(factory)
+                .orElse(null);
+    }
+
+    private <T> List<T> createListIfExists(JsonResponse response, String key, Function<JSONObject, T> factory) {
+        return read(response)
+                .map(obj -> obj.getJSONArray(key)) // may throw an exception, but optJSON... may swallow errors
+                .map(arr -> map(arr, factory))
+                .orElse(Collections.emptyList());
+    }
+
+    private <T> List<T> map(JSONArray array, Function<JSONObject, T> mapper) {
+        List<T> list = new ArrayList<>(array.length());
+        for (int i = 0; i < array.length(); i++) {
+            list.add(mapper.apply(array.getJSONObject(i)));
+        }
+        return list;
     }
 
     private Optional<JSONObject> read(JsonResponse response) {

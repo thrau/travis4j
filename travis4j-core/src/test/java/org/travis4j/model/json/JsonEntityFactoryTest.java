@@ -102,4 +102,15 @@ public class JsonEntityFactoryTest {
         assertEquals(26281307, build.getCommit().getId(), 0);
     }
 
+    @Test
+    public void createRepositoryList_createsRepositoryListCorrectly() throws Exception {
+        JSONObject json = JsonResources.read("repositories.json");
+
+        List<Repository> list = factory.createRepositoryList(new MockJsonResponse(json));
+
+        assertEquals(2, list.size());
+        assertEquals("thrau/jarchivelib", list.get(0).getSlug());
+        assertEquals("thrau/dotfiles", list.get(1).getSlug());
+    }
+
 }

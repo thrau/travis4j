@@ -81,7 +81,15 @@ public class TravisClient implements Closeable, Travis,
 
     @Override
     public List<Repository> getRepositories(String slug) {
-        return null;
+        JsonResponse response = client.query(String.format("repos/%s", slug));
+        System.out.println(response.getJson());
+        return factory.createRepositoryList(response);
+    }
+
+    @Override
+    public List<Repository> getRepositories(List<Long> ids) {
+        JsonResponse response = client.get("repos").addParameter("ids", ",", ids).execute();
+        return factory.createRepositoryList(response);
     }
 
     @Override
@@ -123,6 +131,7 @@ public class TravisClient implements Closeable, Travis,
 
     @Override
     public void close() throws IOException {
+        LOG.info("Closing TravisClient");
         client.close();
     }
 
@@ -139,7 +148,7 @@ public class TravisClient implements Closeable, Travis,
         headers.add(new BasicHeader("Content-Type", "application/json"));
 
         if (token == null || token.isEmpty()) {
-            LOG.warn("No Authorization token provided, won't be able to access all resources");
+            LOG.info("No Authorization token provided, won't be able to access all resources");
         } else {
             headers.add(new BasicHeader("Authorization", "token \"" + token + "\""));
         }

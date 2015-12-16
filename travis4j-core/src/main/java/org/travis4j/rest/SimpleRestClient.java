@@ -9,11 +9,15 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Wraps a HttpClient for easier use.
  */
 public class SimpleRestClient implements Closeable {
+
+    private static final Logger LOG = LoggerFactory.getLogger(SimpleRestClient.class);
 
     private URI api;
     private HttpClient httpClient;
@@ -45,6 +49,7 @@ public class SimpleRestClient implements Closeable {
 
     public HttpResponse execute(HttpUriRequest request) throws UncheckedIOException {
         try {
+            LOG.debug("Executing {}", request);
             return httpClient.execute(request);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
