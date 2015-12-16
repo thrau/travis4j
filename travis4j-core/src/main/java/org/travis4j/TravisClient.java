@@ -2,22 +2,29 @@ package org.travis4j;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.Header;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicHeader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.travis4j.api.BuildsResource;
+import org.travis4j.api.LogsResource;
 import org.travis4j.api.RepositoriesResource;
 import org.travis4j.api.Travis;
 import org.travis4j.api.UsersResource;
 import org.travis4j.model.Build;
 import org.travis4j.model.EntityFactory;
+import org.travis4j.model.Log;
 import org.travis4j.model.PageIterator;
 import org.travis4j.model.Repository;
 import org.travis4j.model.User;
@@ -32,7 +39,8 @@ import org.travis4j.rest.SimpleRestClient;
 public class TravisClient implements Closeable, Travis,
         RepositoriesResource,
         UsersResource,
-        BuildsResource {
+        BuildsResource,
+        LogsResource {
 
     private static final Logger LOG = LoggerFactory.getLogger(TravisClient.class);
 
@@ -140,6 +148,31 @@ public class TravisClient implements Closeable, Travis,
     public void close() throws IOException {
         LOG.info("Closing TravisClient");
         client.close();
+    }
+
+    @Override
+    public Log getLog(long logId) {
+        JsonResponse log = client.query("logs/" + logId);
+
+        long jobId = log.getJson().getJSONObject("log").getLong("job_id");
+
+        // FIXME there must be a better way, but the travis API doesn't seem to work as documented
+        URI logResource = URI.create("https://s3.amazonaws.com/archive.travis-ci.org/jobs/" + jobId + "/log.txt");
+
+        HttpUriRequest logRequest = RequestBuilder.get(logResource).build();
+        HttpResponse response;
+        try {
+            response = client.getHttpClient().execute(logRequest);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+        HttpEntity body = null;
+        if (response.getStatusLine().getStatusCode() == 200) {
+            body = response.getEntity();
+        } else {
+            LOG.warn("Couldn't get log body: {}", response.getStatusLine());
+        }
+        return factory.createLog(log, body);
     }
 
     private HttpClient createHttpClient() {

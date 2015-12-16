@@ -19,25 +19,34 @@ public class JsonResponse {
     private static final Logger LOG = LoggerFactory.getLogger(JsonResponse.class);
 
     private HttpResponse response;
+    private String body;
 
     public JsonResponse(HttpResponse response) {
         this.response = response;
     }
 
-    public JSONObject getJson() throws JSONException {
-        HttpEntity entity = response.getEntity();
-
+    public String getBody() {
+        if (body != null) {
+            return body;
+        }
         if (!isOk()) {
             // FIXME
             throw new RuntimeException("No 200 response, was: " + response);
         }
 
+        HttpEntity entity = response.getEntity();
+
         try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
             entity.writeTo(out);
-            return new JSONObject(out.toString());
+            body = out.toString();
+            return body;
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
+    }
+
+    public JSONObject getJson() throws JSONException {
+        return new JSONObject(getBody());
     }
 
     public boolean isNotFound() {

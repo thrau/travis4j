@@ -1,0 +1,42 @@
+{
+  "job": {
+    "id": 92561342,
+    "repository_id": 1889385,
+    "repository_slug": "thrau/jarchivelib",
+    "build_id": 92561340,
+    "commit_id": 26318654,
+    "log_id": 65952238,
+    "number": "65.1",
+    "config": {
+      "language": "java",
+      "jdk": "openjdk6",
+      "after_success": [
+        "mvn clean cobertura:cobertura coveralls:report"
+      ],
+      ".result": "configured",
+      "group": "stable",
+      "dist": "precise",
+      "os": "linux"
+    },
+    "state": "passed",
+    "started_at": "2015-11-22T15:03:58Z",
+    "finished_at": "2015-11-22T15:09:22Z",
+    "queue": "builds.linux",
+    "allow_failure": false,
+    "tags": null,
+    "annotation_ids": []
+  },
+  "commit": {
+    "id": 26318654,
+    "sha": "dc8bf2206e1ddba304502abb2aad97a0d8e72f59",
+    "branch": "master",
+    "message": "Merge pull request #46 from gbrova/feature/add-top-level-folders-for-create-with-multiple-files\n\nInclude top-level folder names in the archive for multi-file archives",
+    "committed_at": "2015-11-22T15:03:04Z",
+    "author_name": "Thomas Rausch",
+    "author_email": "thomas@rauschig.org",
+    "committer_name": "Thomas Rausch",
+    "committer_email": "thomas@rauschig.org",
+    "compare_url": "https://github.com/thrau/jarchivelib/compare/563b7cdf5266...dc8bf2206e1d"
+  },
+  "annotations": []
+}

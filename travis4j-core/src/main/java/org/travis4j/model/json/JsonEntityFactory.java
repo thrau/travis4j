@@ -6,12 +6,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
+import org.apache.http.HttpEntity;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.travis4j.model.Build;
 import org.travis4j.model.EntityFactory;
+import org.travis4j.model.Log;
 import org.travis4j.model.Repository;
 import org.travis4j.model.User;
 import org.travis4j.rest.JsonResponse;
@@ -43,6 +45,11 @@ public class JsonEntityFactory implements EntityFactory {
     @Override
     public List<Repository> createRepositoryList(JsonResponse response) {
         return createListIfExists(response, "repos", RepositoryJsonObject::new);
+    }
+
+    @Override
+    public Log createLog(JsonResponse response, HttpEntity body) {
+        return createIfExists(response, "log", obj -> new LogJsonObject(obj, body));
     }
 
     @Override

@@ -7,11 +7,13 @@ import static org.junit.Assert.assertTrue;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.travis4j.model.Build;
+import org.travis4j.model.Log;
 import org.travis4j.model.PageIterator;
 import org.travis4j.model.Repository;
 
@@ -110,5 +112,16 @@ public class TravisClientIT {
         assertTrue(pageIterator.hasNext());
         next = pageIterator.next();
         assertEquals(25, next.size());
+    }
+
+    @Test
+    public void getLog_returnsCorrectData() throws Exception {
+        Log log = travis.getLog(65952238L);
+        assertEquals(65952238, log.getId(), 0);
+        assertEquals(92561342, log.getJobId(), 0);
+
+        Stream<String> body = log.getBody();
+        assertEquals(6989, body.count()); // the amount of lines in the body
+
     }
 }

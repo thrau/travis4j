@@ -2,6 +2,7 @@ package org.travis4j.model;
 
 import java.util.List;
 
+import org.apache.http.HttpEntity;
 import org.travis4j.rest.JsonResponse;
 
 /**
@@ -19,4 +20,6 @@ public interface EntityFactory {
     List<Build> createBuildList(JsonResponse response);
 
     List<Repository> createRepositoryList(JsonResponse response);
+
+    Log createLog(JsonResponse log, HttpEntity body);
 }
