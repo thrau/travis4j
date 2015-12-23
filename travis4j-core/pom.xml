@@ -13,7 +13,7 @@
 
   <artifactId>travis4j-core</artifactId>
 
-  <name>travis4j-core</name>
+  <name>Travis4J :: Core</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

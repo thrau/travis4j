@@ -16,7 +16,28 @@
 
   <packaging>pom</packaging>
 
-  <name>travis4j</name>
+  <name>Travis4J</name>
+
+  <description>
+    A Java binding for the Travis-CI API.
+  </description>
+
+  <inceptionYear>2015</inceptionYear>
+
+  <scm>
+    <url>https://github.com/thrau/travis4j</url>
+    <connection>scm:git:git://git@github.com:thrau/travis4j.git</connection>
+    <developerConnection>scm:git:git@github.com:thrau/travis4j.git</developerConnection>
+    <tag>HEAD</tag>
+  </scm>
+
+  <developers>
+    <developer>
+      <id>thrau</id>
+      <name>Thomas Rausch</name>
+      <email>thomas@rauschig.org</email>
+    </developer>
+  </developers>
 
   <licenses>
     <license>
