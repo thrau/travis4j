@@ -32,6 +32,7 @@ import org.travis4j.model.Repository;
 import org.travis4j.model.User;
 import org.travis4j.model.json.JsonEntityFactory;
 import org.travis4j.model.page.BuildsPageIterator;
+import org.travis4j.model.request.ListBuildsRequest;
 import org.travis4j.rest.JsonResponse;
 import org.travis4j.rest.SimpleRestClient;
 
@@ -130,18 +131,24 @@ public class TravisClient implements Closeable, Travis,
 
     @Override
     public List<Build> getBuilds(long repositoryId) {
-        JsonResponse response = client.get("builds")
-                .addParameter("repository_id", repositoryId)
-                .execute();
-
-        return factory.createBuildList(response);
+        return getBuilds(new ListBuildsRequest().setRepositoryId(repositoryId));
     }
 
     @Override
     public List<Build> getBuilds(long repositoryId, long offset) {
+        return getBuilds(new ListBuildsRequest().setRepositoryId(repositoryId).setOffset(offset));
+    }
+
+    @Override
+    public List<Build> getBuilds(ListBuildsRequest request) {
+        // TODO validate
         JsonResponse response = client.get("builds")
-                .addParameter("repository_id", repositoryId)
-                .addParameter("after_number", offset)
+                .addOptionalParameter("ids", ",", request.getIds())
+                .addOptionalParameter("repository_id", request.getRepositoryId())
+                .addOptionalParameter("slug", request.getSlug())
+                .addOptionalParameter("number", request.getNumber())
+                .addOptionalParameter("event_type", request.getEventType())
+                .addOptionalParameter("after_number", request.getOffset())
                 .execute();
 
         return factory.createBuildList(response);

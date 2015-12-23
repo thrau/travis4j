@@ -17,6 +17,7 @@ import org.travis4j.model.Job;
 import org.travis4j.model.Log;
 import org.travis4j.model.PageIterator;
 import org.travis4j.model.Repository;
+import org.travis4j.model.request.ListBuildsRequest;
 
 /**
  * Integration test that calls the actual travis API.
@@ -87,6 +88,21 @@ public class TravisClientIT {
 
         assertEquals(18708233, builds.get(0).getId(), 0);
         assertEquals(18707665, builds.get(1).getId(), 0);
+    }
+
+    @Test
+    public void getBuilds_byIds_returnsCorrectData() throws Exception {
+        List<Build> builds = travis.builds().getBuilds(new ListBuildsRequest().setIds(18708233L, 18707665L));
+
+        assertEquals(2, builds.size());
+        assertEquals(1889385, builds.get(0).getRepositoryId(), 0);
+        assertEquals(1889385, builds.get(1).getRepositoryId(), 0);
+
+        assertEquals(1, builds.get(0).getNumber(), 0);
+        assertEquals(2, builds.get(1).getNumber(), 0);
+
+        assertEquals(18707665, builds.get(0).getId(), 0);
+        assertEquals(18708233, builds.get(1).getId(), 0);
     }
 
     @Test

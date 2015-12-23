@@ -26,9 +26,24 @@ public class Request {
         return this;
     }
 
+    public Request addOptionalParameter(String key, Object value) {
+        return (value == null) ? this : addParameter(key, value);
+    }
+
     public <T> Request addParameter(String key, CharSequence delimiter, Collection<T> values) {
-        List<String> joinables = values.stream().map(Objects::toString).collect(Collectors.toList());
-        return addParameter(key, String.join(delimiter, joinables));
+        return addParameter(key, join(delimiter, values));
+    }
+
+    public <T> Request addOptionalParameter(String key, CharSequence delimiter, Collection<T> values) {
+        return (values == null) ? this : addParameter(key, join(delimiter, values));
+    }
+
+    private <T> String join(CharSequence delimiter, Collection<T> values) {
+        return String.join(delimiter, toStringList(values));
+    }
+
+    private <T> List<String> toStringList(Collection<T> values) {
+        return values.stream().map(Objects::toString).collect(Collectors.toList());
     }
 
     /**
