@@ -13,6 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.travis4j.model.Build;
 import org.travis4j.model.EntityFactory;
+import org.travis4j.model.Job;
 import org.travis4j.model.Repository;
 import org.travis4j.model.User;
 import org.travis4j.rest.JsonResponse;
@@ -50,6 +51,25 @@ public class JsonEntityFactoryTest {
         assertEquals(Instant.parse("2015-11-22T15:09:22Z"), repository.getLastBuildFinishedAt());
         assertEquals("passed", repository.getLastBuildState());
         assertEquals(null, repository.getLastBuildLanguage());
+    }
+
+    @Test
+    public void createJob_createsObjectCorrectly() throws Exception {
+        Job obj = factory.createJob(get("job.json"));
+
+        assertEquals("thrau/jarchivelib", obj.getRepositorySlug());
+        assertEquals(65952238, obj.getLogId(), 0);
+        assertEquals(92561340, obj.getBuildId(), 0);
+        assertEquals(1889385, obj.getRepositoryId(), 0);
+        assertEquals(92561342, obj.getId(), 0);
+        assertEquals(26318654, obj.getCommitId(), 0);
+        assertEquals(26318654, obj.getCommit().getId(), 0);
+        assertEquals("65.1", obj.getNumber());
+        assertEquals(false, obj.getAllowFailure());
+        assertEquals(Instant.parse("2015-11-22T15:03:58Z"), obj.getStartedAt());
+        assertEquals(Instant.parse("2015-11-22T15:09:22Z"), obj.getFinishedAt());
+        assertEquals("passed", obj.getState());
+        assertEquals("builds.linux", obj.getQueue());
     }
 
     @Test

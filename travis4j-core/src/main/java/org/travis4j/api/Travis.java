@@ -10,4 +10,6 @@ public interface Travis {
     UsersResource users();
 
     BuildsResource builds();
+
+    JobsResource jobs();
 }

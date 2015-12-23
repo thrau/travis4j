@@ -2,10 +2,10 @@ package org.travis4j;
 
 import org.travis4j.model.Build;
 import org.travis4j.model.Commit;
+import org.travis4j.model.Job;
 import org.travis4j.model.Log;
 import org.travis4j.model.Repository;
 import org.travis4j.model.User;
-import org.travis4j.model.json.LogJsonObject;
 
 /**
  * A visitor of Entity objects.
@@ -21,4 +21,6 @@ public interface EntityVisitor {
     void visit(Commit entity);
 
     void visit(Log entity);
+
+    void visit(Job entity);
 }

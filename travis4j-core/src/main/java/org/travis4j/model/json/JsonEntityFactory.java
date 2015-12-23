@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.travis4j.model.Build;
 import org.travis4j.model.EntityFactory;
+import org.travis4j.model.Job;
 import org.travis4j.model.Log;
 import org.travis4j.model.Repository;
 import org.travis4j.model.User;
@@ -40,6 +41,13 @@ public class JsonEntityFactory implements EntityFactory {
     @Override
     public Build createBuild(JsonResponse response) {
         return createIfExists(response, "build", BuildJsonObject::new);
+    }
+
+    @Override
+    public Job createJob(JsonResponse response) {
+        JobJsonObject job = createIfExists(response, "job", JobJsonObject::new);
+        job.setCommit(createIfExists(response, "commit", Function.identity()));
+        return job;
     }
 
     @Override

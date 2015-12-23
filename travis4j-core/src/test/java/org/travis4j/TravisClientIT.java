@@ -13,6 +13,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.travis4j.model.Build;
+import org.travis4j.model.Job;
 import org.travis4j.model.Log;
 import org.travis4j.model.PageIterator;
 import org.travis4j.model.Repository;
@@ -123,5 +124,14 @@ public class TravisClientIT {
         Stream<String> body = log.getBody();
         assertEquals(6989, body.count()); // the amount of lines in the body
 
+    }
+
+    @Test
+    public void getJob_returnsCorrectData() throws Exception {
+        Job job = travis.getJob(92561342);
+
+        assertEquals(92561342, job.getId(), 0);
+        assertEquals(26318654, job.getCommitId(), 0);
+        assertEquals(26318654, job.getCommit().getId(), 0);
     }
 }

@@ -18,12 +18,14 @@ import org.apache.http.message.BasicHeader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.travis4j.api.BuildsResource;
+import org.travis4j.api.JobsResource;
 import org.travis4j.api.LogsResource;
 import org.travis4j.api.RepositoriesResource;
 import org.travis4j.api.Travis;
 import org.travis4j.api.UsersResource;
 import org.travis4j.model.Build;
 import org.travis4j.model.EntityFactory;
+import org.travis4j.model.Job;
 import org.travis4j.model.Log;
 import org.travis4j.model.PageIterator;
 import org.travis4j.model.Repository;
@@ -40,7 +42,8 @@ public class TravisClient implements Closeable, Travis,
         RepositoriesResource,
         UsersResource,
         BuildsResource,
-        LogsResource {
+        LogsResource,
+        JobsResource {
 
     private static final Logger LOG = LoggerFactory.getLogger(TravisClient.class);
 
@@ -74,6 +77,11 @@ public class TravisClient implements Closeable, Travis,
 
     @Override
     public BuildsResource builds() {
+        return this;
+    }
+
+    @Override
+    public JobsResource jobs() {
         return this;
     }
 
@@ -140,14 +148,14 @@ public class TravisClient implements Closeable, Travis,
     }
 
     @Override
-    public PageIterator<Build> getAllBuilds(long repositoryId) {
-        return new BuildsPageIterator(repositoryId, this);
+    public Job getJob(long jobId) {
+        JsonResponse response = client.query("jobs/" + jobId);
+        return factory.createJob(response);
     }
 
     @Override
-    public void close() throws IOException {
-        LOG.info("Closing TravisClient");
-        client.close();
+    public PageIterator<Build> getAllBuilds(long repositoryId) {
+        return new BuildsPageIterator(repositoryId, this);
     }
 
     @Override
@@ -173,6 +181,12 @@ public class TravisClient implements Closeable, Travis,
             LOG.warn("Couldn't get log body: {}", response.getStatusLine());
         }
         return factory.createLog(log, body);
+    }
+
+    @Override
+    public void close() throws IOException {
+        LOG.info("Closing TravisClient");
+        client.close();
     }
 
     private HttpClient createHttpClient() {

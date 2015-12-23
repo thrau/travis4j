@@ -15,11 +15,13 @@ public interface EntityFactory {
 
     Build createBuild(JsonResponse response);
 
+    Job createJob(JsonResponse response);
+
     List<User> createUserList(JsonResponse response);
 
     List<Build> createBuildList(JsonResponse response);
 
     List<Repository> createRepositoryList(JsonResponse response);
 
-    Log createLog(JsonResponse log, HttpEntity body);
+    Log createLog(JsonResponse response, HttpEntity body);
 }
