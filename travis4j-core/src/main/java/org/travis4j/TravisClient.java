@@ -161,6 +161,12 @@ public class TravisClient implements Closeable, Travis,
     }
 
     @Override
+    public List<Job> getJobsOfBuild(long buildId) {
+        JsonResponse execute = client.query("builds/" + buildId);
+        return factory.createJobList(execute);
+    }
+
+    @Override
     public PageIterator<Build> getAllBuilds(long repositoryId) {
         return new BuildsPageIterator(repositoryId, this);
     }

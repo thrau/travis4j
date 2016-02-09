@@ -150,4 +150,14 @@ public class TravisClientIT {
         assertEquals(26318654, job.getCommitId(), 0);
         assertEquals(26318654, job.getCommit().getId(), 0);
     }
+
+    @Test
+    public void getJobs_byIds_returnsCorrectData() throws Exception {
+        List<Job> list = travis.getJobsOfBuild(92561340L);
+
+        assertEquals(2, list.size());
+        list.sort((r1, r2) -> Long.compare(r1.getId(), r2.getId()));
+        assertEquals(92561342L, list.get(0).getId(), 0);
+        assertEquals(92561344L, list.get(1).getId(), 0);
+    }
 }

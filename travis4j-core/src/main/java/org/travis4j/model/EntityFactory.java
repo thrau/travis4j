@@ -17,6 +17,8 @@ public interface EntityFactory {
 
     Job createJob(JsonResponse response);
 
+    List<Job> createJobList(JsonResponse response);
+
     List<User> createUserList(JsonResponse response);
 
     List<Build> createBuildList(JsonResponse response);

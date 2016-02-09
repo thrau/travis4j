@@ -1,0 +1,100 @@
+{
+  "build": {
+    "pull_request": false,
+    "finished_at": "2015-11-22T15:09:22Z",
+    "job_ids": [
+      92561342,
+      92561344
+    ],
+    "duration": 378,
+    "number": "65",
+    "event_type": "push",
+    "pull_request_title": null,
+    "pull_request_number": null,
+    "started_at": "2015-11-22T15:03:57Z",
+    "repository_id": 1889385,
+    "id": 92561340,
+    "state": "passed",
+    "commit_id": 26318654,
+    "config": {
+      "jdk": [
+        "openjdk6",
+        "openjdk7"
+      ],
+      "after_success": [
+        "mvn clean cobertura:cobertura coveralls:report"
+      ],
+      ".result": "configured",
+      "dist": "precise",
+      "language": "java",
+      "group": "stable"
+    }
+  },
+  "jobs": [
+    {
+      "log_id": 65952238,
+      "finished_at": "2015-11-22T15:09:22Z",
+      "annotation_ids": [],
+      "tags": null,
+      "number": "65.1",
+      "allow_failure": false,
+      "build_id": 92561340,
+      "started_at": "2015-11-22T15:03:58Z",
+      "repository_id": 1889385,
+      "id": 92561342,
+      "state": "passed",
+      "commit_id": 26318654,
+      "config": {
+        "jdk": "openjdk6",
+        "os": "linux",
+        "after_success": [
+          "mvn clean cobertura:cobertura coveralls:report"
+        ],
+        ".result": "configured",
+        "dist": "precise",
+        "language": "java",
+        "group": "stable"
+      },
+      "queue": "builds.linux"
+    },
+    {
+      "log_id": 65952239,
+      "finished_at": "2015-11-22T15:04:51Z",
+      "annotation_ids": [],
+      "tags": null,
+      "number": "65.2",
+      "allow_failure": false,
+      "build_id": 92561340,
+      "started_at": "2015-11-22T15:03:57Z",
+      "repository_id": 1889385,
+      "id": 92561344,
+      "state": "passed",
+      "commit_id": 26318654,
+      "config": {
+        "jdk": "openjdk7",
+        "os": "linux",
+        "after_success": [
+          "mvn clean cobertura:cobertura coveralls:report"
+        ],
+        ".result": "configured",
+        "dist": "precise",
+        "language": "java",
+        "group": "stable"
+      },
+      "queue": "builds.linux"
+    }
+  ],
+  "commit": {
+    "author_name": "Thomas Rausch",
+    "committer_email": "thomas@rauschig.org",
+    "compare_url": "https://github.com/thrau/jarchivelib/compare/563b7cdf5266...dc8bf2206e1d",
+    "committed_at": "2015-11-22T15:03:04Z",
+    "author_email": "thomas@rauschig.org",
+    "id": 26318654,
+    "message": "Merge pull request #46 from gbrova/feature/add-top-level-folders-for-create-with-multiple-files\n\nInclude top-level folder names in the archive for multi-file archives",
+    "sha": "dc8bf2206e1ddba304502abb2aad97a0d8e72f59",
+    "branch": "master",
+    "committer_name": "Thomas Rausch"
+  },
+  "annotations": []
+}

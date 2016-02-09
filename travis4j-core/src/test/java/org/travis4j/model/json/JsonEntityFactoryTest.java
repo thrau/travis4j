@@ -150,6 +150,16 @@ public class JsonEntityFactoryTest {
         assertThat(user.getChannels(), hasItems("user-63782", "repo-3319193", "repo-2901175"));
     }
 
+    @Test
+    public void createJobList_createsListCorrectly() throws Exception {
+        List<Job> list = factory.createJobList(get("build.json"));
+
+        assertEquals(2, list.size());
+
+        assertEquals(92561342L, list.get(0).getId(), 0);
+        assertEquals(92561344L, list.get(1).getId(), 0);
+    }
+
     private static JsonResponse get(String path) {
         return new MockJsonResponse(JsonResources.read(path));
     }

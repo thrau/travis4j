@@ -51,6 +51,11 @@ public class JsonEntityFactory implements EntityFactory {
     }
 
     @Override
+    public List<Job> createJobList(JsonResponse response) {
+        return createListIfExists(response, "jobs", JobJsonObject::new);
+    }
+
+    @Override
     public List<Repository> createRepositoryList(JsonResponse response) {
         return createListIfExists(response, "repos", RepositoryJsonObject::new);
     }
