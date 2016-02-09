@@ -29,6 +29,10 @@ public abstract class AbstractPageIterator<T> implements PageIterator<T> {
         if (currentPage == null) {
             LOG.debug("Loading first page");
             currentPage = loadFirstPage();
+
+            if(currentPage == null) {
+                throw new IllegalStateException("First page could not be loaded");
+            }
         } else {
             long offset = getNextOffset();
             LOG.debug("Loading next page from offset {}", offset);
