@@ -12,4 +12,6 @@ public interface Travis {
     BuildsResource builds();
 
     JobsResource jobs();
+
+    LogsResource logs();
 }

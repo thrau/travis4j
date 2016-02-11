@@ -87,6 +87,11 @@ public class TravisClient implements Closeable, Travis,
     }
 
     @Override
+    public LogsResource logs() {
+        return this;
+    }
+
+    @Override
     public Repository getRepository(long id) {
         JsonResponse response = client.query("repos/" + id);
         return factory.createRepository(response);
