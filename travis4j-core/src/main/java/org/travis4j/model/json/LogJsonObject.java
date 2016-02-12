@@ -35,6 +35,9 @@ public class LogJsonObject extends AbstractJsonObject implements Log {
 
     @Override
     public Stream<String> getBody() {
+        if(body == null) {
+            return null;
+        }
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(body.getContent()));
             // TODO stream is never closed
