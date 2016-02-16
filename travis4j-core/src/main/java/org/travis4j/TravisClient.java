@@ -185,19 +185,26 @@ public class TravisClient implements Closeable, Travis,
         // FIXME there must be a better way, but the travis API doesn't seem to work as documented
         URI logResource = URI.create("https://s3.amazonaws.com/archive.travis-ci.org/jobs/" + jobId + "/log.txt");
 
-        HttpUriRequest logRequest = RequestBuilder.get(logResource).build();
+        LOG.debug("Got log from Travis {}, now fetching log from s3 for job {}", log, jobId);
+        HttpUriRequest logRequest = RequestBuilder.get(logResource)
+                .addHeader("Accept", "text/plain")
+                .addHeader("Content-Type", "text/plain")
+                .build();
+
         HttpResponse response;
         try {
             response = client.getHttpClient().execute(logRequest);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
+        LOG.debug("Got response for jobId {}, getting entity", jobId);
         HttpEntity body = null;
         if (response.getStatusLine().getStatusCode() == 200) {
             body = response.getEntity();
         } else {
             LOG.warn("Couldn't get log body: {}", response.getStatusLine());
         }
+        LOG.debug("Done getting log {}, creating log object", logId);
         return factory.createLog(log, body);
     }
 
