@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UncheckedIOException;
+import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.apache.http.HttpEntity;
@@ -17,6 +19,7 @@ import org.travis4j.model.Log;
 public class LogJsonObject extends AbstractJsonObject implements Log {
 
     private final HttpEntity body;
+    private List<String> cache;
 
     public LogJsonObject(JSONObject json, HttpEntity body) {
         super(json);
@@ -35,13 +38,16 @@ public class LogJsonObject extends AbstractJsonObject implements Log {
 
     @Override
     public Stream<String> getBody() {
-        if(body == null) {
+        if (cache != null) {
+            return cache.stream();
+        }
+
+        if (body == null) {
             return null;
         }
-        try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(body.getContent()));
-            // TODO stream is never closed
-            return reader.lines();
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(body.getContent()))) {
+            cache = reader.lines().collect(Collectors.toList());
+            return cache.stream();
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
