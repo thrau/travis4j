@@ -210,7 +210,7 @@ public class TravisClient implements Closeable, Travis,
 
     @Override
     public void close() throws IOException {
-        LOG.info("Closing TravisClient");
+        LOG.debug("Closing TravisClient");
         client.close();
     }
 
@@ -227,7 +227,7 @@ public class TravisClient implements Closeable, Travis,
         headers.add(new BasicHeader("Content-Type", "application/json"));
 
         if (token == null || token.isEmpty()) {
-            LOG.info("No Authorization token provided, won't be able to access all resources");
+            LOG.debug("No Authorization token provided, won't be able to access all resources");
         } else {
             headers.add(new BasicHeader("Authorization", "token \"" + token + "\""));
         }
